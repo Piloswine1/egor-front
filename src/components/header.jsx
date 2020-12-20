@@ -6,10 +6,8 @@ import { NavLink } from 'react-router-dom';
 
 const Header = () => {
     const {isLogged, name, logout} = useAuth()
-    const handleLogout = e => {
-        e.preventDefault()
-        logout()
-    }
+    const handleLogout = () => logout()
+
     return(
         <Layout.Header>
             {isLogged? 
@@ -24,10 +22,8 @@ const Header = () => {
                             Создать
                         </NavLink>
                     </Menu.Item>
-                    <Menu.Item icon={<UnlockOutlined />}>
-                        <a to='/' onClick={handleLogout}>
-                            Выйти
-                        </a>
+                    <Menu.Item icon={<UnlockOutlined />} onClick={handleLogout}>
+                        Выйти
                     </Menu.Item>
                     <Menu.Item icon={<UserOutlined />}>
                         Привет, {name}

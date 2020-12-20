@@ -6,12 +6,14 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { useHistory, useParams } from 'react-router-dom'
 
 const layout = {
-    labelCol: { span: 8 },
-    wrapperCol: { span: 4 },
+    wrapperCol: {
+      xs: { span: 24, offset: 0 },
+      sm: { span: 20, offset: 4 },
+    }
 }
-const config = {
-    rules: [{ type: 'object' }],
-}
+
+const config = { rules: [{ type: 'object' }]}
+
 const dateFormat = 'YYYY/MM/DD'
 
 const SubElem = ({data, edit, id}) => {
@@ -55,10 +57,12 @@ const SubElem = ({data, edit, id}) => {
                 {(fields, {add, remove}) => (
                     <>
                         {fields.map(field =>
-                            <Space key={field.key} style={{ display: 'flex'}}>
+                            <Space key={field.key} style={{ display: 'flex', marginBottom: 10 }} align="baseline">
                                 <Form.Item
+                                    {...layout}
                                     key={field.key}
                                     name={field.name}
+                                    style={{flexGrow: 1}}
                                 >
                                     <Input />
                                 </Form.Item>
@@ -77,12 +81,14 @@ const SubElem = ({data, edit, id}) => {
                 )}
             </Form.List>
             <Form.Item>
-                <Button htmlType="submit" type="primary">
-                    {button_message}
-                </Button>
-                <Button htmlType="button" onClick={()=>history.push('/')}>
-                    Закрыть
-                </Button>
+                <Space>
+                    <Button htmlType="submit" type="primary">
+                        {button_message}
+                    </Button>
+                    <Button htmlType="button" onClick={()=>history.push('/')}>
+                        Закрыть
+                    </Button>
+                </Space>
             </Form.Item>
         </Form>
     )
@@ -104,7 +110,7 @@ export const Edit = () => {
         axios.post('/api/get_data', {id})
              .then(ret => set(ret.data))
              .catch(err => message.error('Ошибка: ' + err))
-    }, [data])
+    }, [data, id])
 
     if (!data) return <Spin tip='Загрузка...'/>
     return <SubElem edit data={data} id={id}/>
